@@ -2,9 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.http import HttpResponseForbidden
+from .models import Booking, Profile, Message, Notice, LoginAttempt
 from django.http import HttpResponse, HttpResponseForbidden
 from .models import Booking, Profile, Message, Notice
 from django.utils import timezone
+from datetime import timedelta
+
+# Lockout durations based on consecutive failed attempts
+LOCKOUT_SCHEDULE = {
+    3: timedelta(minutes=5),
+    4: timedelta(minutes=30),
+    5: timedelta(hours=1),
+}
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import BookingForm, ProfileForm, MessageForm, NoticeForm
@@ -136,10 +146,26 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
+        user_obj = User.objects.filter(username=username).first()
+        login_attempt = None
+
+        if user_obj:
+            login_attempt, _ = LoginAttempt.objects.get_or_create(user=user_obj)
+            if login_attempt.lockout_until and login_attempt.lockout_until > timezone.now():
+                remaining = login_attempt.lockout_until - timezone.now()
+                minutes = max(1, int(remaining.total_seconds() // 60))
+                messages.error(request, f'Account locked. Try again in {minutes} minutes.')
+                return render(request, 'bookings/login.html')
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
+            if login_attempt:
+                login_attempt.failed_attempts = 0
+                login_attempt.lockout_until = None
+                login_attempt.save()
             messages.success(request, 'Successfully logged in!')
 
             # Check for unread messages for superadmins
@@ -150,6 +176,19 @@ def login_view(request):
 
             return redirect('home')
         else:
+            if login_attempt:
+                login_attempt.failed_attempts += 1
+                attempt_count = login_attempt.failed_attempts
+
+                # Determine lockout duration from schedule
+                lock_delta = LOCKOUT_SCHEDULE.get(attempt_count)
+                if attempt_count >= 6:
+                    lock_delta = timedelta(hours=24)
+
+                if lock_delta:
+                    login_attempt.lockout_until = timezone.now() + lock_delta
+
+                login_attempt.save()
             messages.error(request, 'Invalid username or password. Please try again.')
 
     return render(request, 'bookings/login.html')
