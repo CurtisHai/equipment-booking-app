@@ -88,3 +88,13 @@ class Notice(models.Model):
 
     def __str__(self):
         return f"Notice by {self.created_by} on {self.created_at}"
+
+
+# Model to track failed login attempts and lockout duration
+class LoginAttempt(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    failed_attempts = models.PositiveIntegerField(default=0)
+    lockout_until = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.failed_attempts} failed attempts"
