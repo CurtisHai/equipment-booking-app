@@ -1,0 +1,38 @@
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Previous Bookings</h2>
+
+    <!-- Responsive table for displaying previous bookings -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover" style="background-color: #fdfdfd;">
+            <thead style="background-color: #05E560; color: #192d38; font-size: 1.25rem;">
+                <!-- Table headers for user, item, start time, and end time -->
+                <tr class="text-center">
+                    <th>User</th>
+                    <th>Item</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through the previous bookings -->
+                {% for booking in previous_bookings %}
+                <tr class="text-center">
+                    <td>{{ booking.user.username }}</td> <!-- Display the username -->
+                    <td>{{ booking.equipment.name }}</td> <!-- Display the equipment name -->
+                    <td>{{ booking.start_time|date:"d M Y H:i" }}</td> <!-- Display formatted start time -->
+                    <td>{{ booking.end_time|date:"d M Y H:i" }}</td> <!-- Display formatted end time -->
+                </tr>
+                <!-- Display message when no previous bookings are available -->
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No previous bookings available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

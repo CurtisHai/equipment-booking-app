@@ -1,0 +1,53 @@
+/* Background color and text styling for the whole page */
+body {
+    background-color: #192d38;  
+    color: #BEDAE5;  
+    font-family: 'Bienvenue', sans-serif;  /* Default font */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header section styling */
+header {
+    background-color: #05E560 !important;  
+    color: #192d38 !important;  
+    font-family: 'Bienvenue', sans-serif;  /* Font for header */
+    padding: 20px;
+    text-align: center;
+}
+
+/* Footer section styling */
+footer {
+    background-color: #05E560 !important;  /* Green background */
+    color: #192d38 !important;  
+    font-family: 'Bienvenue', sans-serif;  /* Font for footer */
+    padding: 20px;
+    text-align: center;
+    margin-top: auto;  /* Keep the footer at the bottom */
+}
+
+/* Styling for H1 and H2 headings */
+h1, h2 {
+    font-family: 'Gamechanger', sans-serif;  /* Font for headings */
+}
+
+/* Main content area flex styling */
+main {
+    flex: 1;  
+}
+
+/* Button styling */
+.button-style {
+    background-color: #BEDAE5;
+    color: #192d38;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Hover effect for buttons */
+.button-style:hover {
+    background-color: #05E560;
+    color: #192d38;
+}

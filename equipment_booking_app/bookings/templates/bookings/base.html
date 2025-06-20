@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AtkinsRéalis Equipment Booking App{% endblock %}</title>
+    
+    <!-- Bootstrap CSS CDN for responsive design and styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom font definitions for the app -->
+    <style>
+        @font-face {
+            font-family: 'Gamechanger';
+            src: url('{% static "bookings/fonts/Gamechanger-Medium.ttf" %}') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Bienvenue';
+            src: url('{% static "bookings/fonts/Bienvenue-Medium.ttf" %}') format('truetype');
+        }
+
+        /* Styling for header, footer, and overall layout */
+        header {
+            background-color: #05E560;
+            color: #192d38;
+            border-radius: 7px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        footer {
+            background-color: #05E560;
+            color: #192d38;
+            border-radius: 10px; 
+        }
+
+        /* Style for logo and navigation links */
+        .logo {
+            max-height: 40px; 
+            margin-right: 20px;
+        }
+
+        /* Center the navigation links manually */
+        .center-nav {
+            position: relative;
+            left: 300px;
+            font-size: 1.2rem; 
+            display: flex;
+        }
+
+        /* Styling for navigation links with hover effects */
+        .nav-link {
+            padding: 10px 20px;
+            background-color: #05E560;
+            color: #192d38;
+            border-radius: 7px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #04C850;
+            color: #192d38;
+        }
+
+        /* Styling for the logout link */
+        #logout-link {
+            font-size: 1.2rem;
+            margin-left: auto;
+        }
+
+        /* Style for login and signup buttons */
+        .auth-btn {
+            background-color: #05E560;
+            color: #192d38;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 7px;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background-color: #04C850;
+            color: #192d38;
+        }
+    </style>
+
+    <!-- Link to the custom CSS file for additional styles -->
+    <link rel="stylesheet" href="{% static 'bookings/css/styles.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color: #192d38; color: #BEDAE5;">
+    <header>
+        <!-- Logo and link to the homepage -->
+        <a href="{% url 'home' %}">
+            <img src="{% static 'bookings/images/logo.png' %}" alt="Logo" class="logo">
+        </a>
+
+        <!-- Navigation bar with conditional links based on user authentication -->
+        <nav class="center-nav">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <a href="{% url 'booking_list' %}" class="nav-link">All Bookings</a>
+                {% else %}
+                    <a href="{% url 'my_bookings' %}" class="nav-link">My Bookings</a>
+                {% endif %}
+                <a href="{% url 'create_booking' %}" class="nav-link">Create Booking</a>
+                <a href="{% url 'accounts' %}" class="nav-link">View Account</a>
+                {% if not user.is_superuser %}
+                    <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <a href="{% url 'inbox' %}" class="nav-link">Inbox</a>
+                {% endif %}
+            {% endif %}
+        </nav>
+
+        <!-- Show login/signup buttons if user is not authenticated -->
+        {% if not user.is_authenticated %}
+            <div>
+                <a href="{% url 'login' %}" class="auth-btn">Login</a>
+                <a href="{% url 'signup' %}" class="auth-btn">Sign Up</a>
+            </div>
+        {% else %}
+            <!-- Logout button -->
+            <a href="{% url 'logout' %}" id="logout-link" class="nav-link" onclick="confirmLogout(event)">Logout</a>
+        {% endif %}
+    </header>
+
+    <!-- Display Django messages if there are any -->
+    {% if messages %}
+    <div class="container mt-3 mb-4">
+        <div class="alert alert-info">
+            {% for message in messages %}
+            <div class="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Main content of the page -->
+    <main class="container flex-grow-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer with additional information -->
+    <footer class="py-4 mt-auto">
+        <div class="container text-left">
+            <p>&copy; 2024 AtkinsRéalis Equipment Booking App. All rights reserved. For Support, please create an account and reach out through the contact page.</p>
+        </div>
+    </footer>    
+
+    <!-- Bootstrap JS, Popper.js, and jQuery for interactivity and responsiveness -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script to confirm logout -->
+    <script>
+        function confirmLogout(event) {
+            event.preventDefault();  // Prevent immediate logout
+            const userConfirmed = confirm("Are you sure you want to log out?");
+            if (userConfirmed) {
+                // Redirect to the logout URL if user confirmed
+                window.location.href = event.target.href;
+            }
+        }
+    </script>
+</body>
+</html>
