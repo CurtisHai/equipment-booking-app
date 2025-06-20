@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from .models import Booking, Profile, Message, Notice, LoginAttempt
+from django.http import HttpResponse, HttpResponseForbidden
+from .models import Booking, Profile, Message, Notice
 from django.utils import timezone
 from datetime import timedelta
 
@@ -98,7 +100,10 @@ def booking_list(request):
 @login_required
 def edit_booking(request, booking_id):
     # Allow users to edit existing bookings
-    booking = get_object_or_404(Booking, id=booking_id)
+    if request.user.is_superuser:
+        booking = get_object_or_404(Booking, id=booking_id)
+    else:
+        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
     current_time = timezone.now()
 
     if request.user != booking.user and not request.user.is_superuser:
@@ -352,3 +357,11 @@ def remove_notice(request):
         Notice.objects.all().delete()
         messages.success(request, 'Notice removed successfully.')
     return redirect('home')
+
+
+def security_notice(request):
+    """Inform visitors that the admin interface is secured."""
+    return HttpResponse(
+        "This website is secured and undergoes regular security audits in accordance,"
+        " but not exclusively, with the OWASP Top 10."
+    )
