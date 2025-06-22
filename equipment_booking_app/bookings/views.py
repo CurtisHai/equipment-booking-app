@@ -357,8 +357,4 @@ def remove_notice(request):
 
 
 def security_notice(request):
-    """Inform visitors that the admin interface is secured."""
-    return HttpResponse(
-        "This website is secured and undergoes regular security audits in accordance,"
-        " but not exclusively, with the OWASP Top 10."
-    )
+    return render(request, 'bookings/admin.html')
