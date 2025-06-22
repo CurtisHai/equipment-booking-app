@@ -15,93 +15,107 @@
             font-family: 'Gamechanger';
             src: url('{% static "bookings/fonts/Gamechanger-Medium.ttf" %}') format('truetype');
         }
-
+    
         @font-face {
             font-family: 'Bienvenue';
             src: url('{% static "bookings/fonts/Bienvenue-Medium.ttf" %}') format('truetype');
         }
-
-        /* Styling for header, footer, and overall layout */
+    
+        /* Updated Styling for header and footer with gradient background */
         header {
-            background-color: #05E560;
+            background-image: linear-gradient(45deg, #BE02F8, #BEDAE5);
             color: #192d38;
-            border-radius: 7px; 
+            border-radius: 6px;
+            border: 2px solid #BE02F8;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px;
+            padding: 20px;
         }
-
+    
         footer {
-            background-color: #05E560;
+            background-image: linear-gradient(45deg, #BE02F8, #BEDAE5);
             color: #192d38;
-            border-radius: 10px; 
+            border-radius: 6px;
+            border: 2px solid #BE02F8;
+            padding: 20px;
         }
-
-        /* Style for logo and navigation links */
+    
         .logo {
             max-height: 40px; 
             margin-right: 20px;
         }
-
-        /* Center the navigation links manually */
+    
         .center-nav {
             position: relative;
             left: 300px;
-            font-size: 1.2rem; 
+            font-size: 1.2rem;
             display: flex;
+            gap: 10px;
         }
-
-        /* Styling for navigation links with hover effects */
+    
         .nav-link {
             padding: 10px 20px;
-            background-color: #05E560;
+            background-image: linear-gradient(45deg, #BE02F8, #BEDAE5);
             color: #192d38;
-            border-radius: 7px;
+            border-radius: 10px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: background-image 0.3s ease;
+            margin-right: 10px;
+            display: inline-block;
         }
-
+    
         .nav-link:hover {
-            background-color: #04C850;
+            background-image: linear-gradient(45deg, #BEDAE5, #BE02F8);
             color: #192d38;
         }
-
-        /* Styling for the logout link */
+    
         #logout-link {
             font-size: 1.2rem;
             margin-left: auto;
         }
-
-        /* Style for login and signup buttons */
+    
         .auth-btn {
-            background-color: #05E560;
+            background-image: linear-gradient(45deg, #BE02F8, #BEDAE5);
             color: #192d38;
             border: none;
             padding: 10px 20px;
-            border-radius: 7px;
+            border-radius: 10px;
             font-size: 1.2rem;
             margin-right: 10px;
-            transition: background-color 0.3s ease;
+            transition: background-image 0.3s ease;
+            display: inline-block;
         }
-
+    
         .auth-btn:hover {
-            background-color: #04C850;
+            background-image: linear-gradient(45deg, #BEDAE5, #BE02F8);
+            color: #192d38;
+        }
+    
+        .btn {
+            background-image: linear-gradient(45deg, #BE02F8, #BEDAE5);
+            color: #192d38;
+            border: none;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+    
+        .btn:hover {
+            background-image: linear-gradient(45deg, #BEDAE5, #BE02F8);
             color: #192d38;
         }
     </style>
+    
 
     <!-- Link to the custom CSS file for additional styles -->
     <link rel="stylesheet" href="{% static 'bookings/css/styles.css' %}">
 </head>
-<body class="d-flex flex-column min-vh-100" style="background-color: #192d38; color: #BEDAE5;">
+<body class="d-flex flex-column min-vh-100" style="background-color: #101e29; color: white;">
     <header>
-        <!-- Logo and link to the homepage -->
         <a href="{% url 'home' %}">
             <img src="{% static 'bookings/images/logo.png' %}" alt="Logo" class="logo">
         </a>
 
-        <!-- Navigation bar with conditional links based on user authentication -->
         <nav class="center-nav">
             {% if user.is_authenticated %}
                 {% if user.is_superuser %}
@@ -120,56 +134,47 @@
             {% endif %}
         </nav>
 
-        <!-- Show login/signup buttons if user is not authenticated -->
         {% if not user.is_authenticated %}
             <div>
                 <a href="{% url 'login' %}" class="auth-btn">Login</a>
                 <a href="{% url 'signup' %}" class="auth-btn">Sign Up</a>
             </div>
         {% else %}
-            <!-- Logout button -->
             <a href="{% url 'logout' %}" id="logout-link" class="nav-link" onclick="confirmLogout(event)">Logout</a>
         {% endif %}
     </header>
 
-    <!-- Display Django messages if there are any -->
     {% if messages %}
     <div class="container mt-3 mb-4">
         <div class="alert alert-info">
             {% for message in messages %}
-            <div class="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
-                {{ message }}
-            </div>
+            <div class="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">{{ message }}</div>
             {% endfor %}
         </div>
     </div>
     {% endif %}
 
-    <!-- Main content of the page -->
-    <main class="container flex-grow-1">
+    <main class="container flex-grow-1" style="background-color: #192d38; color: white; border-radius: 6px; padding: 20px;">
         {% block content %}
         {% endblock %}
     </main>
 
-    <!-- Footer with additional information -->
     <footer class="py-4 mt-auto">
         <div class="container text-left">
-            <p>&copy; 2024 AtkinsRéalis Equipment Booking App. All rights reserved. For Support, please create an account and reach out through the contact page.</p>
+            <p style="font-size: 1.1rem;">&copy; 2025 AtkinsRéalis Equipment Booking App. For Support, please reach out to our friendly team through the contact page.</p>
         </div>
-    </footer>    
+    </footer>
+    
 
-    <!-- Bootstrap JS, Popper.js, and jQuery for interactivity and responsiveness -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Script to confirm logout -->
     <script>
         function confirmLogout(event) {
-            event.preventDefault();  // Prevent immediate logout
+            event.preventDefault();
             const userConfirmed = confirm("Are you sure you want to log out?");
             if (userConfirmed) {
-                // Redirect to the logout URL if user confirmed
                 window.location.href = event.target.href;
             }
         }
