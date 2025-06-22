@@ -315,3 +315,9 @@ def remove_notice(request):
         Notice.objects.all().delete()
         messages.success(request, 'Notice removed successfully.')
     return redirect('home')
+
+
+def security_notice(request):
+    """Inform visitors that the admin interface is secured."""
+    return render(request, 'bookings/security_notice.html')
+

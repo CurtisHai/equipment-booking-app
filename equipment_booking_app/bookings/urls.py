@@ -21,4 +21,5 @@ urlpatterns = [
     path('message/respond/<int:message_id>/', views.respond_to_message, name='respond_message'),
     path('manage-notice/', views.manage_notice, name='manage_notice'),
     path('remove_notice/', views.remove_notice, name='remove_notice'),
+    path('security-notice/', views.security_notice, name='security_notice'),
 ]
