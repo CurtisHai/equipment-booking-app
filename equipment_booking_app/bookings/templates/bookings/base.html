@@ -8,8 +8,6 @@
     
     <!-- Bootstrap CSS CDN for responsive design and styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for theme toggle icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
     <!-- Custom font definitions for the app -->
     <style>
@@ -111,8 +109,6 @@
 
     <!-- Link to the custom CSS file for additional styles -->
     <link rel="stylesheet" href="{% static 'bookings/css/styles.css' %}">
-    <!-- Dark mode styles -->
-    <link rel="stylesheet" href="{% static 'bookings/css/dark-mode.css' %}">
 </head>
 <body class="d-flex flex-column min-vh-100" style="background-color: #101e29; color: white;">
     <header>
@@ -164,11 +160,8 @@
     </main>
 
     <footer class="py-4 mt-auto">
-        <div class="container text-left d-flex justify-content-between align-items-center">
-            <p style="font-size: 1.1rem;" class="mb-0">&copy; 2025 AtkinsRéalis Equipment Booking App. For Support, please reach out to our friendly team through the contact page.</p>
-            <button id="theme-toggle" class="btn btn-link text-decoration-none" aria-label="Toggle dark mode">
-                <i class="fas fa-moon"></i>
-            </button>
+        <div class="container text-left">
+            <p style="font-size: 1.1rem;">&copy; 2025 AtkinsRéalis Equipment Booking App. For Support, please reach out to our friendly team through the contact page.</p>
         </div>
     </footer>
     
@@ -185,21 +178,6 @@
                 window.location.href = event.target.href;
             }
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('theme-toggle');
-            const body = document.body;
-            const stored = localStorage.getItem('full-dark-mode');
-            if (stored === 'true') {
-                body.classList.add('full-dark-mode');
-                toggle.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-            toggle.addEventListener('click', function() {
-                body.classList.toggle('full-dark-mode');
-                const enabled = body.classList.contains('full-dark-mode');
-                toggle.innerHTML = enabled ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-                localStorage.setItem('full-dark-mode', enabled);
-            });
-        });
     </script>
 </body>
 </html>
