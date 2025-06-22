@@ -33,7 +33,7 @@
         <!-- Notice Board for Regular Users -->
         {% if notices %}
         <div class="card w-75 mb-2 mx-auto"> <!-- Changed from w-50 to w-75 and centered -->
-            <div class="card-body" style="color: #192d38;">
+            <div class="card-body" style="color: white;">
                 <h2 class="card-title">Notice Board</h2>
                 <p>{{ notices.message }}</p>
 
@@ -51,7 +51,7 @@
         <!-- Form for Superusers to Create Notices -->
         {% if user.is_superuser %}
         <div class="card w-75 mx-auto"> <!-- Also widened and centered -->
-            <div class="card-body" style="color: #192d38;">
+            <div class="card-body" style="color: white;">
                 <h2 class="card-title">Create a Notice</h2>
                 <form method="post">
                     {% csrf_token %}
