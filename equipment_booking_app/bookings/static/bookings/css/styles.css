@@ -111,11 +111,11 @@ main {
 
 /*
  * Ensure all Bootstrap cards across the site use a consistent
- * white background with dark text, matching the login form style.
+ * dark background with light text.
  */
 .card {
-    background-color: #ffffff;
-    color: #192d38;
+    background-color: #000000;
+    color: #ffffff;
 }
 
 /* Theme toggle */
