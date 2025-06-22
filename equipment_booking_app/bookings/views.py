@@ -355,10 +355,3 @@ def remove_notice(request):
         messages.success(request, 'Notice removed successfully.')
     return redirect('home')
 
-
-def security_notice(request):
-    """Inform visitors that the admin interface is secured."""
-    return HttpResponse(
-        "This website is secured and undergoes regular security audits in accordance,"
-        " but not exclusively, with the OWASP Top 10."
-    )
