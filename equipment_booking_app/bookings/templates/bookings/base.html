@@ -23,8 +23,8 @@
 
         /* Styling for header, footer, and overall layout */
         header {
-            background-color: #05E560;
-            color: #192d38;
+            background-color: #B9FF00;
+            color: #000000;
             border-radius: 7px; 
             display: flex;
             align-items: center;
@@ -33,9 +33,9 @@
         }
 
         footer {
-            background-color: #05E560;
-            color: #192d38;
-            border-radius: 10px; 
+            background-color: #B9FF00;
+            color: #000000;
+            border-radius: 10px;
         }
 
         /* Style for logo and navigation links */
@@ -55,16 +55,16 @@
         /* Styling for navigation links with hover effects */
         .nav-link {
             padding: 10px 20px;
-            background-color: #05E560;
-            color: #192d38;
+            background-color: #B9FF00;
+            color: #000000;
             border-radius: 7px;
             text-decoration: none;
             transition: background-color 0.3s ease;
         }
 
         .nav-link:hover {
-            background-color: #04C850;
-            color: #192d38;
+            background-image: linear-gradient(45deg, #B9FF00, #a3e600);
+            color: #000000;
         }
 
         /* Styling for the logout link */
@@ -75,8 +75,8 @@
 
         /* Style for login and signup buttons */
         .auth-btn {
-            background-color: #05E560;
-            color: #192d38;
+            background-color: #B9FF00;
+            color: #000000;
             border: none;
             padding: 10px 20px;
             border-radius: 7px;
@@ -86,15 +86,15 @@
         }
 
         .auth-btn:hover {
-            background-color: #04C850;
-            color: #192d38;
+            background-image: linear-gradient(45deg, #B9FF00, #a3e600);
+            color: #000000;
         }
     </style>
 
     <!-- Link to the custom CSS file for additional styles -->
     <link rel="stylesheet" href="{% static 'bookings/css/styles.css' %}">
 </head>
-<body class="d-flex flex-column min-vh-100" style="background-color: #192d38; color: #BEDAE5;">
+<body class="d-flex flex-column min-vh-100" style="background-color: #192d38; color: #ffffff;">
     <header>
         <!-- Logo and link to the homepage -->
         <a href="{% url 'home' %}">
