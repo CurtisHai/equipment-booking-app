@@ -25,7 +25,7 @@
                         {% for message in unsettled_messages %}
                         <tr class="text-center">
                             <td>{{ message.subject|default:"No Subject Provided" }}</td>
-                            <td>{{ message.confirmation_number }}</td>
+                            <td>{{ message.confirmation_number|stringformat:"s"|slice:":8" }}</td>
                             <td>{{ message.sender.email }}</td>
                             <td>{{ message.content }}</td>
                             <td>{{ message.read|yesno:"Read,Unread" }}</td>
@@ -59,7 +59,7 @@
                     {% for message in settled_messages %}
                     <tr class="text-center">
                         <td>{{ message.subject|default:"No Subject Provided" }}</td>
-                        <td>{{ message.confirmation_number }}</td>
+                        <td>{{ message.confirmation_number|stringformat:"s"|slice:":8" }}</td>
                         <td>{{ message.sender.email }}</td>
                         <td>{{ message.content }}</td>
                         <td>
