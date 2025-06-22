@@ -1,7 +1,7 @@
 /* Background color and text styling for the whole page */
 body {
-    background-color: #192d38;
-    color: #ffffff;
+    background-color: #192d38;  
+    color: #BEDAE5;  
     font-family: 'Bienvenue', sans-serif;  /* Default font */
     min-height: 100vh;
     display: flex;
@@ -10,8 +10,8 @@ body {
 
 /* Header section styling */
 header {
-    background-color: #B9FF00 !important;
-    color: #000000 !important;
+    background-color: #05E560 !important;  
+    color: #192d38 !important;  
     font-family: 'Bienvenue', sans-serif;  /* Font for header */
     padding: 20px;
     text-align: center;
@@ -19,10 +19,10 @@ header {
 
 /* Footer section styling */
 footer {
-    background-color: #B9FF00 !important;
-    color: #000000 !important;
+    background-color: #05E560 !important;  /* Green background */
+    color: #192d38 !important;  
     font-family: 'Bienvenue', sans-serif;  /* Font for footer */
-    padding: 30px;
+    padding: 20px;
     text-align: center;
     margin-top: auto;  /* Keep the footer at the bottom */
 }
@@ -39,8 +39,8 @@ main {
 
 /* Button styling */
 .button-style {
-    background-color: #B9FF00;
-    color: #000000;
+    background-color: #BEDAE5;
+    color: #192d38;
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
@@ -48,22 +48,6 @@ main {
 
 /* Hover effect for buttons */
 .button-style:hover {
-    background-image: linear-gradient(45deg, #B9FF00, #a3e600);
-    color: #000000;
-}
-
-/* Gradient hover effect for Bootstrap buttons */
-.btn:hover {
-    background-image: linear-gradient(45deg, #B9FF00, #a3e600);
-}
-
-/* Primary button color scheme */
-.btn-primary {
-    background-color: #B9FF00;
-    border-color: #B9FF00;
-    color: #000000;
-}
-
-.btn-primary:hover {
-    color: #000000;
+    background-color: #05E560;
+    color: #192d38;
 }
