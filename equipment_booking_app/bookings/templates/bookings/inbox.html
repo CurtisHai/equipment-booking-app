@@ -5,13 +5,13 @@
     <h2 class="text-center mb-4">Admin Message Inbox</h2>
 
     <!-- Unsettled messages section -->
-    <h3 class="mb-3" style="color: #05E560;">Unsettled Messages</h3>
+    <h3 class="mb-3" style="color: #B9FF00;">Unsettled Messages</h3>
     {% if unsettled_messages %}
         <form method="POST">
             {% csrf_token %}
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover w-150" style="background-color: #fdfdfd; width: 100%;">
-                    <thead style="background-color: #05E560; color: #192d38; font-size: 1.25rem;">
+                    <thead style="background-color: #B9FF00; color: #000000; font-size: 1.25rem;">
                         <tr class="text-center">
                             <th>Subject</th>
                             <th>Confirmation Number</th>
@@ -35,18 +35,18 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-primary mt-3" style="background-color: #05E560; color: #192d38;">Mark as Replied</button>
+            <button type="submit" class="btn btn-primary mt-3" style="background-color: #B9FF00; color: #000000;">Mark as Replied</button>
         </form>
     {% else %}
         <p>No unsettled messages.</p>
     {% endif %}
 
     <!-- Settled messages section -->
-    <h3 class="mt-5 mb-3" style="color: #05E560;">Settled Messages</h3>
+    <h3 class="mt-5 mb-3" style="color: #B9FF00;">Settled Messages</h3>
     {% if settled_messages %}
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover w-100" style="background-color: #fdfdfd; width: 100%;">
-                <thead style="background-color: #05E560; color: #192d38; font-size: 1.25rem;">
+                <thead style="background-color: #B9FF00; color: #000000; font-size: 1.25rem;">
                     <tr class="text-center">
                         <th>Subject</th>
                         <th>Confirmation Number</th>
