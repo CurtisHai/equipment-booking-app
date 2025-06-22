@@ -38,10 +38,12 @@
                         <!-- Allow superusers to edit any booking, and regular users to edit only future bookings -->
                         {% if is_superuser %}
                             <form action="{% url 'edit_booking' booking.id %}" method="get" style="display:inline;">
+                                {% csrf_token %}
                                 <button type="submit" class="btn btn-primary btn-sm">Edit</button>
                             </form>
                         {% elif booking.start_time > current_time and booking.user == request.user %}
                             <form action="{% url 'edit_booking' booking.id %}" method="get" style="display:inline;">
+                                {% csrf_token %}
                                 <button type="submit" class="btn btn-primary btn-sm">Edit</button>
                             </form>
                         {% endif %}
@@ -104,6 +106,7 @@
     <!-- Button to view all previous bookings -->
     <div class="text-center mt-4 mb-5"> <!-- Add space between content and footer -->
         <form action="{% url 'previous_bookings' %}" method="get" style="display:inline;">
+            {% csrf_token %}
             <button type="submit" class="btn btn-primary">View All Previous Bookings</button>
         </form>
     </div>

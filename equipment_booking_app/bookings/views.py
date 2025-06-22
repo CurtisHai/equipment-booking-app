@@ -357,4 +357,5 @@ def remove_notice(request):
 
 
 def security_notice(request):
-
+    """Render a notice page when users access a restricted admin URL."""
+    return render(request, 'bookings/security_notice.html')
