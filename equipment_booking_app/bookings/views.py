@@ -357,4 +357,4 @@ def remove_notice(request):
 
 
 def security_notice(request):
-    return render(request, 'bookings/admin.html')
+
