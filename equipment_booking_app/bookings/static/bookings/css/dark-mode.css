@@ -1,0 +1,27 @@
+body.full-dark-mode {
+    background-color: #000;
+    color: #fff;
+}
+body.full-dark-mode header,
+body.full-dark-mode footer {
+    background-color: #2c2c2c;
+    background-image: none;
+    color: #fff;
+    border-color: #444;
+}
+body.full-dark-mode main {
+    background-color: #121212;
+    color: #fff;
+}
+body.full-dark-mode .card {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+body.full-dark-mode .form-control {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+body.full-dark-mode a {
+    color: #9ac;
+}
