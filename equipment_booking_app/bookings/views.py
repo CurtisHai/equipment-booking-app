@@ -1,25 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.http import HttpResponseForbidden
-from .models import Booking, Profile, Message, Notice, LoginAttempt
 from django.http import HttpResponse, HttpResponseForbidden
-from .models import Booking, Profile, Message, Notice
 from django.utils import timezone
 from datetime import timedelta
 
-# Lockout durations based on consecutive failed attempts
-LOCKOUT_SCHEDULE = {
-    3: timedelta(minutes=5),
-    4: timedelta(minutes=30),
-    5: timedelta(hours=1),
-}
+from .models import Booking, Profile, Message, Notice, LoginAttempt
+from .forms import BookingForm, ProfileForm, MessageForm, NoticeForm
+
+# Number of allowed failed attempts before locking an account
+LOCKOUT_THRESHOLD = 5
+# Duration of the lockout once the threshold is exceeded
+LOCKOUT_DURATION = timedelta(hours=1)
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import BookingForm, ProfileForm, MessageForm, NoticeForm
 from django.core.mail import send_mail
-from django.contrib.auth.decorators import user_passes_test
 
 
 @login_required
@@ -178,18 +175,18 @@ def login_view(request):
         else:
             if login_attempt:
                 login_attempt.failed_attempts += 1
-                attempt_count = login_attempt.failed_attempts
-
-                # Determine lockout duration from schedule
-                lock_delta = LOCKOUT_SCHEDULE.get(attempt_count)
-                if attempt_count >= 6:
-                    lock_delta = timedelta(hours=24)
-
-                if lock_delta:
-                    login_attempt.lockout_until = timezone.now() + lock_delta
-
-                login_attempt.save()
-            messages.error(request, 'Invalid username or password. Please try again.')
+                if login_attempt.failed_attempts >= LOCKOUT_THRESHOLD:
+                    login_attempt.lockout_until = timezone.now() + LOCKOUT_DURATION
+                    login_attempt.save()
+                    minutes = int(LOCKOUT_DURATION.total_seconds() // 60)
+                    messages.error(request, f'Account locked. Try again in {minutes} minutes.')
+                    return render(request, 'bookings/login.html')
+                else:
+                    attempts_left = LOCKOUT_THRESHOLD - login_attempt.failed_attempts
+                    login_attempt.save()
+                    messages.error(request, f'Incorrect password. {attempts_left} attempts remaining.')
+            else:
+                messages.error(request, 'Invalid username or password. Please try again.')
 
     return render(request, 'bookings/login.html')
 
