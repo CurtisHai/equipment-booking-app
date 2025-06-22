@@ -102,3 +102,12 @@ main {
     background-image: linear-gradient(45deg, #BEDAE5, #BE02F8);
     color: #192d38;
 }
+
+/*
+ * Ensure all Bootstrap cards across the site use a consistent
+ * white background with dark text, matching the login form style.
+ */
+.card {
+    background-color: #ffffff;
+    color: #192d38;
+}
