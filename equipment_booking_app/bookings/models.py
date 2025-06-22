@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import uuid
+import secrets
+
+def generate_confirmation_number():
+    return secrets.token_hex(4).upper()
 
 # Model representing different equipment types available for booking
 class Equipment(models.Model):
@@ -69,7 +73,12 @@ class Message(models.Model):
     content = models.TextField()
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
-    confirmation_number = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    confirmation_number = models.CharField(
+        max_length=8,
+        unique=True,
+        default=generate_confirmation_number,
+        editable=False,
+    )
     response = models.TextField(blank=True, null=True)
     responded_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='responded_messages')
     read = models.BooleanField(default=False)
@@ -88,3 +97,13 @@ class Notice(models.Model):
 
     def __str__(self):
         return f"Notice by {self.created_by} on {self.created_at}"
+
+
+# Model to track failed login attempts and lockout duration
+class LoginAttempt(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    failed_attempts = models.PositiveIntegerField(default=0)
+    lockout_until = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.failed_attempts} failed attempts"

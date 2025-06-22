@@ -24,9 +24,11 @@ class BookingForm(forms.ModelForm):
         else:
             # Regular users can only see their own name
             self.fields['user'].queryset = User.objects.filter(id=user.id)
+            self.fields['user'].initial = user  # Auto-fill with the logged-in user
             # Disable the dropdown for regular users, but still render it visibly
             self.fields['user'].widget.attrs['readonly'] = True
             self.fields['user'].disabled = True  # Disable the field for regular users
+            self.fields['user'].required = False  # Exclude from POST validation
 
     def save(self, commit=True):
         booking = super().save(commit=False)

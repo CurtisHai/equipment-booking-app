@@ -1,15 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseForbidden
-from .models import Booking, Profile, Message, Notice
 from django.utils import timezone
+from datetime import timedelta
+
+from .models import Booking, Profile, Message, Notice, LoginAttempt
+from .forms import BookingForm, ProfileForm, MessageForm, NoticeForm
+
+# Number of allowed failed attempts before locking an account
+LOCKOUT_THRESHOLD = 5
+# Duration of the lockout once the threshold is exceeded
+LOCKOUT_DURATION = timedelta(hours=1)
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import BookingForm, ProfileForm, MessageForm, NoticeForm
 from django.core.mail import send_mail
-from django.contrib.auth.decorators import user_passes_test
 
 
 @login_required
@@ -90,7 +97,10 @@ def booking_list(request):
 @login_required
 def edit_booking(request, booking_id):
     # Allow users to edit existing bookings
-    booking = get_object_or_404(Booking, id=booking_id)
+    if request.user.is_superuser:
+        booking = get_object_or_404(Booking, id=booking_id)
+    else:
+        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
     current_time = timezone.now()
 
     if request.user != booking.user and not request.user.is_superuser:
@@ -133,10 +143,26 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
+        user_obj = User.objects.filter(username=username).first()
+        login_attempt = None
+
+        if user_obj:
+            login_attempt, _ = LoginAttempt.objects.get_or_create(user=user_obj)
+            if login_attempt.lockout_until and login_attempt.lockout_until > timezone.now():
+                remaining = login_attempt.lockout_until - timezone.now()
+                minutes = max(1, int(remaining.total_seconds() // 60))
+                messages.error(request, f'Account locked. Try again in {minutes} minutes.')
+                return render(request, 'bookings/login.html')
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
+            if login_attempt:
+                login_attempt.failed_attempts = 0
+                login_attempt.lockout_until = None
+                login_attempt.save()
             messages.success(request, 'Successfully logged in!')
 
             # Check for unread messages for superadmins
@@ -147,7 +173,20 @@ def login_view(request):
 
             return redirect('home')
         else:
-            messages.error(request, 'Invalid username or password. Please try again.')
+            if login_attempt:
+                login_attempt.failed_attempts += 1
+                if login_attempt.failed_attempts >= LOCKOUT_THRESHOLD:
+                    login_attempt.lockout_until = timezone.now() + LOCKOUT_DURATION
+                    login_attempt.save()
+                    minutes = int(LOCKOUT_DURATION.total_seconds() // 60)
+                    messages.error(request, f'Account locked. Try again in {minutes} minutes.')
+                    return render(request, 'bookings/login.html')
+                else:
+                    attempts_left = LOCKOUT_THRESHOLD - login_attempt.failed_attempts
+                    login_attempt.save()
+                    messages.error(request, f'Incorrect password. {attempts_left} attempts remaining.')
+            else:
+                messages.error(request, 'Invalid username or password. Please try again.')
 
     return render(request, 'bookings/login.html')
 
@@ -316,14 +355,3 @@ def remove_notice(request):
         messages.success(request, 'Notice removed successfully.')
     return redirect('home')
 
-
-def security_notice(request):
-    """Display a friendly alert and return visitors to their previous page."""
-    message = (
-        "This website is secured and undergoes regular security audits in "
-        "accordance, but not exclusively, with the OWASP Top 10."
-    )
-    # Fall back to home if no referrer is available
-    referer = request.META.get("HTTP_REFERER", "/")
-    script = f"<script>alert('{message}'); window.location.replace('{referer}');</script>"
-    return HttpResponse(script)
