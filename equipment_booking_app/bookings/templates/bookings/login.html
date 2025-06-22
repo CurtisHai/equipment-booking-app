@@ -2,10 +2,12 @@
 
 {% block content %}
 <!-- Center the login form vertically and horizontally within the viewport -->
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+<div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 80vh;">
+    <!-- Title shown above the login form -->
+    <h1 class="text-center mb-4" style="color: white;">AtkinsRealis Booking App</h1>
     <!-- Bootstrap card for styling the login form -->
     <div class="card p-4 w-50" style="color: #192d38;">  <!-- Text color applied here -->
-        <h1 class="text-center mb-4">Login</h1>
+        <h2 class="text-center mb-4">Login</h2>
 
         <!-- Login form with CSRF token for security -->
         <form method="post" action="{% url 'login' %}">
