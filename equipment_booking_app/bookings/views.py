@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden
 from .models import Booking, Profile, Message, Notice
 from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
@@ -315,3 +315,15 @@ def remove_notice(request):
         Notice.objects.all().delete()
         messages.success(request, 'Notice removed successfully.')
     return redirect('home')
+
+
+def security_notice(request):
+    """Display a friendly alert and return visitors to their previous page."""
+    message = (
+        "This website is secured and undergoes regular security audits in "
+        "accordance, but not exclusively, with the OWASP Top 10."
+    )
+    # Fall back to home if no referrer is available
+    referer = request.META.get("HTTP_REFERER", "/")
+    script = f"<script>alert('{message}'); window.location.replace('{referer}');</script>"
+    return HttpResponse(script)
