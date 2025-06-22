@@ -42,8 +42,6 @@ h1, h2 {
 /* Main content grows with flex */
 main {
     flex: 1;
-    border-radius: 6px;
-    padding: 20px;
 }
 
 /* Logo */
@@ -117,32 +115,3 @@ main {
     background-color: #000000;
     color: #ffffff;
 }
-
-/* Theme toggle */
-.theme-toggle-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-body.light-mode {
-    background-color: #BEDAE5;
-    color: #192d38;
-}
-
-body.light-mode main {
-    background-color: #ffffff;
-    color: #192d38;
-}
-
-body.dark-mode {
-    background-color: #101e29;
-    color: white;
-}
-
-body.dark-mode main {
-    background-color: #192d38;
-    color: white;
-}
-
