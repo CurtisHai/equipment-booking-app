@@ -348,14 +348,17 @@ def manage_notice(request):
     return render(request, 'bookings/manage_notice.html', {'form': form, 'notice': notice})
 
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def remove_notice(request):
+    """Delete all existing notices and redirect to the home page."""
     if request.method == 'POST':
         Notice.objects.all().delete()
         messages.success(request, 'Notice removed successfully.')
     return redirect('home')
 
 
+
 def security_notice(request):
     """Render a notice page when users access a restricted admin URL."""
-    return render(request, 'bookings/security_notice.html')
+    return render(request, "bookings/security_notice.html")
