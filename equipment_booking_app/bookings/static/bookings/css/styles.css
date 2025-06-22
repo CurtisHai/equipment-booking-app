@@ -48,6 +48,7 @@ main {
 .logo {
     max-height: 40px;
     margin-right: 20px;
+    padding: 5px;
 }
 
 /* Center navigation bar */
