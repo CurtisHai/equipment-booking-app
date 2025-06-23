@@ -63,9 +63,24 @@ def create_booking(request):
         if form.is_valid():
             booking = form.save(commit=False)
             booking.user = form.cleaned_data['user'] if request.user.is_superuser else request.user
-            booking.save()
-            messages.success(request, 'Booking created successfully!')
-            return redirect('booking_list')
+
+            # Prevent overlapping bookings for the same equipment
+            conflicts = Booking.objects.filter(
+                equipment=booking.equipment,
+                start_time__lt=booking.end_time,
+                end_time__gt=booking.start_time
+            )
+
+            if conflicts.exists():
+                overlap_dates = sorted({c.start_time.strftime('%Y-%m-%d') for c in conflicts})
+                messages.error(
+                    request,
+                    'This item is already reserved on: ' + ', '.join(overlap_dates) + '. Please choose another time.'
+                )
+            else:
+                booking.save()
+                messages.success(request, 'Booking created successfully!')
+                return redirect('booking_list')
         else:
             messages.error(request, 'Error creating booking. Please ensure the equipment is available.')
     else:
