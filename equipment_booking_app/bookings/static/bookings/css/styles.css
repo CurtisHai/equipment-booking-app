@@ -27,7 +27,8 @@ footer {
     background-color: rgba(190, 2, 248, 0.8);
     color: #192d38;
     font-family: 'Bienvenue', sans-serif;
-    padding: 30px;
+    /* Footer height should be roughly 30% of the header height */
+    padding: 9px;
     border-radius: 6px;
     border: 2px solid #BE02F8;
     text-align: center;
