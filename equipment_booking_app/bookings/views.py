@@ -63,9 +63,23 @@ def create_booking(request):
         if form.is_valid():
             booking = form.save(commit=False)
             booking.user = form.cleaned_data['user'] if request.user.is_superuser else request.user
-            booking.save()
-            messages.success(request, 'Booking created successfully!')
-            return redirect('booking_list')
+
+            # Prevent overlapping bookings for the same equipment
+            overlap_exists = Booking.objects.filter(
+                equipment=booking.equipment,
+                start_time__lt=booking.end_time,
+                end_time__gt=booking.start_time
+            ).exists()
+
+            if overlap_exists:
+                messages.error(
+                    request,
+                    'This item is already reserved for the requested time. Please choose another time.'
+                )
+            else:
+                booking.save()
+                messages.success(request, 'Booking created successfully!')
+                return redirect('booking_list')
         else:
             messages.error(request, 'Error creating booking. Please ensure the equipment is available.')
     else:
@@ -357,4 +371,5 @@ def remove_notice(request):
 
 
 def security_notice(request):
-
+    """Render a notice page when users access a restricted admin URL."""
+    return render(request, 'bookings/security_notice.html')

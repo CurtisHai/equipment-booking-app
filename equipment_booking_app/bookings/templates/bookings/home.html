@@ -15,14 +15,17 @@
         <div class="mb-4">
             <!-- Replace Logout with Create Booking -->
             <form action="{% url 'create_booking' %}" method="get" class="d-inline-block">
+                {% csrf_token %}
                 <button type="submit" class="btn btn-primary">Create Booking</button>
             </form>
         
             <form action="{% url 'my_bookings' %}" method="get" class="d-inline-block ml-2">
+                {% csrf_token %}
                 <button type="submit" class="btn btn-primary">View Bookings</button>
             </form>
         
             <form action="{% url 'accounts' %}" method="get" class="d-inline-block ml-2">
+                {% csrf_token %}
                 <button type="submit" class="btn btn-primary">View Account</button>
             </form>
         </div>
