@@ -27,7 +27,6 @@ footer {
     background-color: rgba(190, 2, 248, 0.8);
     color: #192d38;
     font-family: 'Bienvenue', sans-serif;
-    /* Footer height should be roughly 30% of the header height */
     padding: 9px;
     border-radius: 6px;
     border: 2px solid #BE02F8;
@@ -108,10 +107,6 @@ main {
     color: #192d38;
 }
 
-/*
- * Ensure all Bootstrap cards across the site use a consistent
- * white background with dark text, matching the login form style.
- */
 .card {
     background-color: #ffffff;
     color: #192d38;

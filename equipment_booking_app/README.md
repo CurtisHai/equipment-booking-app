@@ -20,7 +20,7 @@ This is a Django-based application for booking equipment. It provides functional
     
  
   
-    `git clone https://github.com/yourusername/equipment-booking-app.git
+    `git clone https://github.com/CurtisHai/equipment-booking-app.git
     cd equipment-booking-app` 
     
 2.  **Create a virtual environment** (optional but recommended):
