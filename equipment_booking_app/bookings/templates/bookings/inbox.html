@@ -5,7 +5,7 @@
     <h2 class="text-center mb-4">Admin Message Inbox</h2>
 
     <!-- Unsettled messages section -->
-    <h3 class="mb-3" style="color: #BE02F8;">Unsettled Messages</h3>
+    <h3 class="text-center mb-3" style="color: #FFFFFF;">Unsettled Messages</h3>
     {% if unsettled_messages %}
         <form method="POST">
             {% csrf_token %}
@@ -42,7 +42,7 @@
     {% endif %}
 
     <!-- Settled messages section -->
-    <h3 class="mt-5 mb-3" style="color: #BE02F8;">Settled Messages</h3>
+    <h3 class="text-center mt-5 mb-3" style="color: #FFFFFF;">Settled Messages</h3>
     {% if settled_messages %}
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover w-100" style="background-color: #ffffff; width: 100%;">
