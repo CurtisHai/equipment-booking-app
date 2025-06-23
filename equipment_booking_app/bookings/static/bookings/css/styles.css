@@ -43,6 +43,9 @@ h1, h2 {
 /* Main content grows with flex */
 main {
     flex: 1;
+    /* Limit main content to 80% of the viewport height so the page fits */
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 /* Logo */
