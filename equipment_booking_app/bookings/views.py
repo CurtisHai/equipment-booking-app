@@ -72,10 +72,37 @@ def create_booking(request):
             ).exists()
 
             if overlap_exists:
-                messages.error(
-                    request,
-                    'This item is already reserved for the requested time. Please choose another time.'
-                )
+                # Gather nearby bookings within one week either side
+                window_start = booking.start_time - timedelta(days=7)
+                window_end = booking.end_time + timedelta(days=7)
+                conflicts = Booking.objects.filter(
+                    equipment=booking.equipment,
+                    start_time__lt=window_end,
+                    end_time__gt=window_start
+                ).order_by('start_time')
+
+                unavailable = sorted({c.start_time.strftime('%Y-%m-%d') for c in conflicts})
+
+                recommended = None
+                for offset in range(-7, 8):
+                    candidate_start = booking.start_time + timedelta(days=offset)
+                    candidate_end = booking.end_time + timedelta(days=offset)
+                    if not Booking.objects.filter(
+                        equipment=booking.equipment,
+                        start_time__lt=candidate_end,
+                        end_time__gt=candidate_start
+                    ).exists():
+                        recommended = candidate_start.strftime('%Y-%m-%d')
+                        break
+
+                message_parts = [
+                    'This item is already reserved for the requested time.'
+                ]
+                if unavailable:
+                    message_parts.append('Unavailable on: ' + ', '.join(unavailable) + '.')
+                if recommended:
+                    message_parts.append('Consider booking on ' + recommended + '.')
+                messages.error(request, ' '.join(message_parts))
             else:
                 booking.save()
                 messages.success(request, 'Booking created successfully!')
