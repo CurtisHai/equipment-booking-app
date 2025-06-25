@@ -98,3 +98,13 @@ class LoginAttempt(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.failed_attempts} failed attempts"
+
+
+# Track attempts for usernames that don't correspond to a real account
+class UnknownLoginAttempt(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    failed_attempts = models.PositiveIntegerField(default=0)
+    lockout_until = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.username} - {self.failed_attempts} failed attempts"
