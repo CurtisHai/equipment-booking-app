@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Equipment, Booking, Profile, LoginAttempt
+from .models import Equipment, Booking, Profile, LoginAttempt, UnknownLoginAttempt
 
 # Admin interface for Equipment model
 class EquipmentAdmin(admin.ModelAdmin):
@@ -31,3 +31,4 @@ admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(Profile)
 admin.site.register(LoginAttempt)
+admin.site.register(UnknownLoginAttempt)
