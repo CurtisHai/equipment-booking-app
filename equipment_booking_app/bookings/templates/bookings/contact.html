@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Contact Us</h2>
+    <h2 class="text-center mb-4">Need Help?</h2>
 
     <!-- Card for styling the content, similar to booking form design -->
     <div class="card p-4 w-75 mx-auto mb-5" style="color: #192d38;">
@@ -12,17 +12,17 @@
             
             <!-- Check if the user has a valid email associated with their account -->
             {% if user.email %}
-                <p>If you have any issues or inquiries, our support team is here to assist you. Below are some of the ways we can help:</p>
-                <ul>
-                    <li><strong>Reporting an Issue:</strong> Inform us about any technical issues you're facing, and we'll resolve them promptly.</li>
-                    <li><strong>General Inquiries:</strong> Ask questions or request clarification about the booking system or policies.</li>
-                    <li><strong>Requesting a Booking Deletion:</strong> If you cannot delete your booking, provide the details, and our team will assist.</li>
-                    <li><strong>Logging a Request:</strong> Submit requests for specific equipment or special needs through this page.</li>
-                    <li><strong>Backdating a Booking:</strong> If you forgot to log past equipment usage, contact an admin to backdate it.</li>
-                    <li><strong>Other Queries:</strong> Reach out for any other questions, feedback, or suggestions to improve your experience.</li>
-                </ul>
+                <p>Our support team is here for you. Use the form below to contact us, and we&rsquo;ll reply via email.</p>
 
-                <p>Use the form below to contact us, and our support team will respond via email.</p>
+                <p>We can assist with:</p>
+                <ul>
+                    <li><strong>Technical Issues</strong> &ndash; Report problems for prompt resolution.</li>
+                    <li><strong>General Questions</strong> &ndash; Ask about the booking system or policies.</li>
+                    <li><strong>Booking Deletion</strong> &ndash; Can&rsquo;t delete a booking? We&rsquo;ll help.</li>
+                    <li><strong>Special Requests</strong> &ndash; Submit equipment or accessibility needs.</li>
+                    <li><strong>Backdating Bookings</strong> &ndash; Forgot to log usage? Contact us to update.</li>
+                    <li><strong>Other Queries</strong> &ndash; Feedback or suggestions are always welcome.</li>
+                </ul>
 
                 <!-- Display form errors if there are any -->
                 {% if form.errors %}
